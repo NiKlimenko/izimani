@@ -1,0 +1,10 @@
+{
+  "/token": {
+    "target": "http://izimani.azurewebsites.net",
+    "changeOrigin": true
+  },
+  "/api": {
+    "target": "http://izimani.azurewebsites.net",
+    "changeOrigin": true
+  }
+}

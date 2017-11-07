@@ -1,0 +1,80 @@
+<div class="row">
+  <div *ngFor="let card of userCards" class="col-xl-5 col-lg-6 col-md-8 col-sm-12 col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        {{card.amount}} {{card.currencyType}} ({{card.cardType}})
+      </div>
+      <div class="card-block">
+        <div *ngIf="card.isLocked" class="alert alert-warning alert-sm">
+          <div class="alert-items">
+            <div class="alert-item static">
+              <div class="alert-icon-wrapper">
+                <clr-icon class="alert-icon" shape="exclamation-triangle"></clr-icon>
+              </div>
+              <div class="alert-text">
+                This card is locked.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-text" style="text-align: center">
+          <div class="credit-card credit-card--front" style="width: auto">
+            <div class="credit-card__company">Izimani</div>
+            <div class="credit-card__number">{{formatCardNumber(card.cardNumber)}}</div>
+            <div class="credit-card__expiry-date">{{formatCardDate(card.expirationDate)}}</div>
+            <div class="credit-card__owner">{{card.holderName}} {{card.holderLastName}}</div>
+            <div class="credit-card__logo"><span [ngClass]="getCardPaymentSystemClass(card.paymentSystemType)"
+                                                 style="font-size: 5rem"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <button class="btn btn-primary">Report</button>
+        <clr-dropdown>
+          <button class="btn btn-danger" clrDropdownTrigger (click)="cardActionHandle(card)">
+            Actions
+            <clr-icon shape="caret down"></clr-icon>
+          </button>
+          <clr-dropdown-menu clrPosition="top-left" *clrIfOpen>
+            <button *ngIf="card.isLocked; else unBlockCard" type="button" clrDropdownItem (click)="unBlockCardModal.open()">
+              Unblock card
+            </button>
+            <ng-template #unBlockCard>
+              <button type="button" clrDropdownItem (click)="blockCardModal.open()">Block card</button>
+            </ng-template>
+          </clr-dropdown-menu>
+        </clr-dropdown>
+      </div>
+    </div>
+  </div>
+</div>
+
+<clr-modal #blockCardModal>
+  <h3 class="modal-title">Blocking card</h3>
+  <div class="modal-body">
+    <p>Your card will be locked and become inaccessible for any payments. Later you will be able to unlock it.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="blockCardModal.close()">Cancel</button>
+    <span *ngIf="isBlockInAction; else blockButton" class="spinner spinner-md" style="margin: 0 0 0 .5rem"></span>
+    <ng-template #blockButton>
+      <button type="button" class="btn btn-primary" (click)="blockSelectedCard()">Ok</button>
+    </ng-template>
+  </div>
+</clr-modal>
+
+<clr-modal #unBlockCardModal>
+  <h3 class="modal-title">Unblocking card</h3>
+  <div class="modal-body">
+    <p>Your card will be unlocked and become accessible for any payments.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="unBlockCardModal.close()">Cancel</button>
+    <span *ngIf="isBlockInAction; else unBlockButton" class="spinner spinner-md" style="margin: 0 0 0 .5rem"></span>
+    <ng-template #unBlockButton>
+      <button type="button" class="btn btn-primary" (click)="unBlockSelectedCard()">Ok</button>
+    </ng-template>
+  </div>
+</clr-modal>

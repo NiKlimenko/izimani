@@ -1,0 +1,45 @@
+{
+  "rulesDirectory": [
+    "node_modules/codelyzer",
+    "node_modules/tslint-microsoft-contrib"
+  ],
+  "extends": ["tslint-microsoft-contrib"],
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "app",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "app",
+      "kebab-case"
+    ],
+    "use-input-property-decorator": true,
+    "use-output-property-decorator": true,
+    "use-host-property-decorator": true,
+    "no-attribute-parameter-decorator": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
+    "no-forward-ref": true,
+    "use-life-cycle-interface": true,
+    "use-pipe-transform-interface": true,
+    "component-class-suffix": true,
+    "directive-class-suffix": true,
+    "no-output-on-prefix": true,
+
+    "interface-name": [true, "never-prefix"],
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
+    "no-relative-imports": false,
+    "no-consecutive-blank-lines": [true, 2],
+    "typedef": [true, "arrow-call-signature", "parameter", "arrow-parameter", "property-declaration",
+      "variable-declaration", "member-variable-declaration", "object-destructuring", "array-destructuring"],
+    "no-invalid-this": false,
+    "align": [true, "parameters", "statements"],
+    "no-import-side-effect": [true, {"ignore-module": "^rxjs"}],
+    "export-name": false,
+    "no-stateless-class": false
+  }
+}
