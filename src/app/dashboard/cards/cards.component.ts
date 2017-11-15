@@ -1,7 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {Modal} from 'clarity-angular';
+import {Observable} from 'rxjs/Observable';
 import {Card, PaymentSystemType} from '../../shared/card';
 import {CardService} from '../../shared/services/card.service';
-import {Modal} from 'clarity-angular';
 
 /**
  * Component for rendering credit cards
@@ -20,7 +21,7 @@ export class CardsComponent implements OnInit {
   @ViewChild('unBlockCardModal')
   public unBlockCardModal: Modal;
 
-  public userCards: Card[];
+  public userCards: Observable<Card[]>;
   public isBlockInAction: boolean = false;
 
   private cardService: CardService;
@@ -31,9 +32,7 @@ export class CardsComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.cardService.getCurrentUserCards().subscribe((cards: Card[]) => {
-      this.userCards = cards.map((card: Card) => Card.CONVERT(card));
-    });
+    this.userCards = this.cardService.getCurrentUserCards();
   }
 
   public formatCardNumber(rawCardNumber: string): string {

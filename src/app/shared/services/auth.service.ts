@@ -21,10 +21,18 @@ export class AuthService {
   private http: HttpClient;
   private currentUser: Observable<User>;
 
+  /**
+   * @param {HttpClient} http
+   */
   constructor(http: HttpClient) {
     this.http = http;
   }
 
+  /**
+   * Authenticate the user by credentials and save the authentication token in the local storage
+   * @param {UserCredentials} credentials
+   * @returns {Observable<void>}
+   */
   public authenticate(credentials: UserCredentials): Observable<void> {
     const credentialsForm: URLSearchParams = new URLSearchParams();
     credentialsForm.append('grant_type', 'password');
@@ -37,12 +45,20 @@ export class AuthService {
     );
   }
 
+  /**
+   * Logged out user from API and remove the authentication token from the local storage
+   * @returns {Observable<void>}
+   */
   public logOut(): Observable<void> {
     return this.http.post('api/account/logout', null, {responseType: 'blob'}).pipe(
       map((e: {}) => window.localStorage.removeItem(AppConfig.lsTokenName))
     );
   }
 
+  /**
+   * Returns current user
+   * @returns {Observable<User>}
+   */
   public getCurrentUser(): Observable<User> {
     if (this.currentUser) {
       return this.currentUser;
@@ -53,6 +69,10 @@ export class AuthService {
     }
   }
 
+  /**
+   * Removes cached current user
+   * Next request to API will update current user
+   */
   public clearUserCache() {
     this.currentUser = null;
   }

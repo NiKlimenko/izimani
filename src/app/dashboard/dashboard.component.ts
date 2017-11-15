@@ -19,6 +19,10 @@ export class DashboardComponent implements OnInit {
   private authService: AuthService;
   private router: Router;
 
+  /**
+   * @param {AuthService} authService
+   * @param {Router} router
+   */
   constructor(authService: AuthService, router: Router) {
     this.authService = authService;
     this.router = router;
@@ -30,6 +34,10 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  /**
+   * Log out method
+   * Logged out from API and redirect to the login page
+   */
   public logOut() {
     this.authService.logOut().subscribe(() => this.router.navigateByUrl('/login'));
   }

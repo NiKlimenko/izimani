@@ -1,3 +1,11 @@
-<app-dash-header (logout)="logOut()"></app-dash-header>
-
-<app-cards></app-cards>
+<clr-main-container>
+  <app-dash-header (logout)="logOut()"></app-dash-header>
+  <div class="content-container">
+    <div class="content-area">
+      <div class="row">
+        <app-cards class="col-xs-10"></app-cards>
+        <app-currency class="col-xs-2"></app-currency>
+      </div>
+    </div>
+  </div>
+</clr-main-container>

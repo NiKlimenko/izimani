@@ -1,0 +1,16 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th class="left">From</th>
+    <th>To</th>
+    <th>Currency</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let currency of currencies|async">
+    <td class="left">{{currency.baseCurrency}}</td>
+    <td>{{currency.destinationCurrency}}</td>
+    <td>{{currency.value}}</td>
+  </tr>
+  </tbody>
+</table>

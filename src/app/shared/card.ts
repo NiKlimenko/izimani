@@ -1,5 +1,7 @@
 //tslint:disable:variable-name
 
+import {DBRelation, ObjectModel} from './object-model';
+
 /**
  * Type describes the payment systems
  */
@@ -16,21 +18,11 @@ export type CardType = 'standard'|'classic'|'gold';
 export type CurrencyType = 'USD'|'EUR';
 
 /**
- * Relation between front-end and back-end.
- * Only be used inside the API.
- */
-export interface DBRelation {
-  BE: string;
-  FE: string;
-}
-
-/**
  * Credit card model
  */
+export class Card extends ObjectModel<Card> {
 
-export class Card {
-
-  public static BE_RELATIONS: DBRelation[] = [
+  public BE_RELATIONS: DBRelation[] = [
     {BE: 'IBAN', FE: 'iban'},
     {BE: 'payment_system_type', FE: 'paymentSystemType'},
     {BE: 'card_type', FE: 'cardType'},
@@ -59,9 +51,6 @@ export class Card {
   public holderLastName: string;
 
   public static CONVERT(beData: {}): Card {
-    const card: Card = new Card();
-    Card.BE_RELATIONS.forEach((relation: DBRelation) => card[relation.FE] = beData[relation.BE]);
-
-    return card;
+    return new Card().convert(beData);
   }
 }
