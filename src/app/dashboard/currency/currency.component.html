@@ -7,10 +7,30 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let currency of currencies|async">
-    <td class="left">{{currency.baseCurrency}}</td>
-    <td>{{currency.destinationCurrency}}</td>
-    <td>{{currency.value}}</td>
+  <tr *ngFor="let rate of rates|async">
+    <td class="left">{{rate.baseCurrency}}</td>
+    <td>{{rate.destinationCurrency}}</td>
+    <td>{{rate.value}}</td>
   </tr>
   </tbody>
 </table>
+
+<div class="currency_calculator">
+  <input type="text" placeholder="Amount" [ngModel]="amount" (ngModelChange)="amountChanged($event)" name="amount">
+  <div class="row currency_select">
+    <div class="select col-xl-4 col-lg-5">
+      <select id="from" [ngModel]="base" (ngModelChange)="baseCurrencySelected($event)">
+        <option *ngFor="let currency of currencies|async">{{currency}}</option>
+      </select>
+    </div>
+
+    <clr-icon shape="switch" (click)="swapCurrencies()" class="currency_switch flex-xs-bottom"></clr-icon>
+
+    <div class="select col-xl-4 col-lg-5">
+      <select id="to" [ngModel]="destination" (ngModelChange)="destinationCurrencySelected($event)">
+        <option *ngFor="let currency of currencies|async">{{currency}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="currency_result">Result: <span style="font-size: 0.9rem">{{exchangeResult|async}}</span></div>
+</div>

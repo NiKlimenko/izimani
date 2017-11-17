@@ -1,5 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {ClarityModule, ClrDropdownModule, ClrIconModule, ClrModalModule} from 'clarity-angular';
 import {CardService} from '../shared/services/card.service';
 import {CurrencyService} from '../shared/services/currency.service';
@@ -20,7 +21,8 @@ import {HeaderComponent} from './header/header.component';
     ClrIconModule,
     ClrDropdownModule,
     ClrModalModule,
-    ClarityModule
+    ClarityModule,
+    FormsModule
   ],
   declarations: [DashboardComponent, HeaderComponent, CardsComponent, CurrencyComponent],
   providers: [CardService, CurrencyService]
