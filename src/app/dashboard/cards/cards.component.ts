@@ -30,15 +30,17 @@ export class CardsComponent implements OnInit {
   public transferModal: Modal;
 
   public userCards: Observable<Card[]>;
+  public selectedCard: Card;
+
   public isBlockInAction: boolean = false;
   public isTransferInAction: boolean = false;
+
   public transferForm: FormGroup;
   public transferErrorMessage: string;
   public isTransferError: boolean = false;
 
   private cardService: CardService;
   private appAlertService: AppAlertService;
-  private selectedCard: Card;
 
   constructor(cardService: CardService, appAlertService: AppAlertService) {
     this.cardService = cardService;
