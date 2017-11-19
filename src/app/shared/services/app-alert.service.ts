@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
-import {AppAlertParams} from '../../dashboard/app-alert/app-alert.component';
+import {AppAlertParams} from '../../bank/app-alert/app-alert.component';
 
 /**
  * Service for working with app level alerts

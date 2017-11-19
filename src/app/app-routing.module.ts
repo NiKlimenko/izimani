@@ -2,8 +2,8 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 export const routes: Routes = [
-  {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-  {path: 'dashboard', loadChildren: 'app/dashboard/dashboard.module#DashboardModule'},
+  {path: '', redirectTo: '/bank', pathMatch: 'full'},
+  {path: 'bank', loadChildren: 'app/bank/bank.module#BankModule'},
   {path: 'login', loadChildren: 'app/login/login.module#LoginModule'}
 ];
 
