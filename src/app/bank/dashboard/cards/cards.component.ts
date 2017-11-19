@@ -3,11 +3,11 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {Modal} from 'clarity-angular';
 import {Observable} from 'rxjs/Observable';
 import {finalize} from 'rxjs/operators';
-import {AppAlertParams} from '../../bank/app-alert/app-alert.component';
-import {Card, PaymentSystemType} from '../../shared/card';
-import {AppAlertService} from '../../shared/services/app-alert.service';
-import {CardService} from '../../shared/services/card.service';
-import {TransferPayload} from '../../shared/transfer-payload';
+import {Card, PaymentSystemType} from '../../../shared/card';
+import {AppAlertService} from '../../../shared/services/app-alert.service';
+import {CardService} from '../../../shared/services/card.service';
+import {TransferPayload} from '../../../shared/transfer-payload';
+import {AppAlertParams} from '../../app-alert/app-alert.component';
 
 /**
  * Component for rendering credit cards

@@ -4,7 +4,7 @@ import {BankComponent} from './bank.component';
 
 const routes: Routes = [
   {path: '', component: BankComponent, children: [
-    {path: '', loadChildren: 'app/dashboard/dashboard.module#DashboardModule'}
+    {path: '', loadChildren: 'app/bank/dashboard/dashboard.module#DashboardModule'}
   ]}
 ];
 

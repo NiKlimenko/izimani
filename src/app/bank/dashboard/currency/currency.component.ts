@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {map, tap} from 'rxjs/operators';
-import {CurrencyRate} from '../../shared/currency-rate';
-import {CurrencyService} from '../../shared/services/currency.service';
+import {CurrencyRate} from '../../../shared/currency-rate';
+import {CurrencyService} from '../../../shared/services/currency.service';
 
 /**
  * Component that displays a table with currencies
