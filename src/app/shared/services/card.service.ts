@@ -1,8 +1,9 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operators';
+import {Observable, ObservableInput} from 'rxjs/Observable';
+import {catchError, map} from 'rxjs/operators';
 import {Card} from '../card';
+import {TransferPayload} from '../transfer-payload';
 
 /**
  * Service for working with credit cards
@@ -49,5 +50,30 @@ export class CardService {
     return this.http.put(`api/bankcard/${iban}/unlock`, null, {responseType: 'blob'}).pipe(
       map(() => null)
     );
+  }
+
+  /**
+   * Transfer money to another card
+   * @param {string} fromIban
+   * @param {TransferPayload} payload
+   * @returns {Observable<void>}
+   */
+  public transferToCard(fromIban: string, payload: TransferPayload): Observable<void> {
+    return this.http.post(`api/cardtocard/${fromIban}/transact`, payload.convertToBE(), {responseType: 'text'}).pipe(
+      map(() => null),
+      catchError(this.parseError)
+    );
+  }
+
+  private parseError(response: HttpErrorResponse): ObservableInput<{}> {
+    const error: {ModelState: {}[]} = JSON.parse(response.error);
+
+    const states: {}[] = error.ModelState;
+
+    if (states) {
+      return Observable.throw(states[Object.keys(states)[0]][0]);
+    } else {
+      return Observable.throw(null);
+    }
   }
 }

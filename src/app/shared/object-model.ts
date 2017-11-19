@@ -26,4 +26,11 @@ export class ObjectModel<T> {
 
     return <T> feObject;
   }
+
+  public convertToBE(): object {
+    const beObject: {} = {};
+    this.BE_RELATIONS.forEach((relation: DBRelation) => beObject[relation.BE] = this[relation.FE]);
+
+    return beObject;
+  }
 }

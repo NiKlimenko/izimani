@@ -44,6 +44,10 @@
             <ng-template #unBlockCard>
               <button type="button" clrDropdownItem (click)="blockCardModal.open()">Block card</button>
             </ng-template>
+            <button type="button" clrDropdownItem (click)="transferModal.open()" [class.disabled]="card.isLocked"
+                    [disabled]="card.isLocked">
+              Transfer
+            </button>
           </clr-dropdown-menu>
         </clr-dropdown>
       </div>
@@ -54,13 +58,13 @@
 <clr-modal #blockCardModal>
   <h3 class="modal-title">Blocking card</h3>
   <div class="modal-body">
-    <p>Your card will be locked and become inaccessible for any payments. Later you will be able to unlock it.</p>
+    <p>Would you like to lock your card, it will become unavailable for any payments. Later you will be able to unlock it.</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline" (click)="blockCardModal.close()">Cancel</button>
     <span *ngIf="isBlockInAction; else blockButton" class="spinner spinner-md" style="margin: 0 0 0 .5rem"></span>
     <ng-template #blockButton>
-      <button type="button" class="btn btn-primary" (click)="blockSelectedCard()">Ok</button>
+      <button type="button" class="btn btn-danger" (click)="blockSelectedCard()">Lock</button>
     </ng-template>
   </div>
 </clr-modal>
@@ -68,13 +72,50 @@
 <clr-modal #unBlockCardModal>
   <h3 class="modal-title">Unblocking card</h3>
   <div class="modal-body">
-    <p>Your card will be unlocked and become accessible for any payments.</p>
+    <p>Would you like to unlock your card, it will become accessible for any payments.</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline" (click)="unBlockCardModal.close()">Cancel</button>
     <span *ngIf="isBlockInAction; else unBlockButton" class="spinner spinner-md" style="margin: 0 0 0 .5rem"></span>
     <ng-template #unBlockButton>
-      <button type="button" class="btn btn-primary" (click)="unBlockSelectedCard()">Ok</button>
+      <button type="button" class="btn btn-success" (click)="unBlockSelectedCard()">Unlock</button>
+    </ng-template>
+  </div>
+</clr-modal>
+
+<clr-modal #transferModal (clrModalOpenChange)="transferModalClosed($event)">
+  <h3 class="modal-title">Transfer to the card</h3>
+  <div class="modal-body">
+    <clr-alert [clrAlertType]="'alert-danger'" [clrAlertClosable]="false" [(clrAlertClosed)]="!isTransferError">
+      <clr-alert-item>
+        <span class="alert-text">{{transferErrorMessage}}</span>
+      </clr-alert-item>
+    </clr-alert>
+
+    <p>You can transfer money from your card to another card in our Bank.</p>
+
+    <form id="transferForm" [formGroup]="transferForm" (ngSubmit)="transferToCard()">
+      <section class="form-block">
+        <div class="form-group">
+          <label for="card_number">Card number to transfer</label>
+          <input formControlName="cardNumber" type="text" id="card_number" placeholder="Card number" required>
+        </div>
+        <div class="form-group">
+          <label for="card_cvv">CVV of your card</label>
+          <input formControlName="cvv" type="text" id="card_cvv" placeholder="CVV" required>
+        </div>
+        <div class="form-group">
+          <label for="amount">Amount in {{selectedCard?.currencyType}}</label>
+          <input formControlName="amount" type="text" id="amount" placeholder="Amount" required>
+        </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="transferModal.close()">Cancel</button>
+    <span *ngIf="isTransferInAction; else transferButton" class="spinner spinner-md" style="margin: 0 0 0 .5rem"></span>
+    <ng-template #transferButton>
+      <button [disabled]="transferForm.invalid" type="submit" form="transferForm" class="btn btn-primary">Transfer</button>
     </ng-template>
   </div>
 </clr-modal>
