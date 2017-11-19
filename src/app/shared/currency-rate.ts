@@ -6,7 +6,7 @@ import {DBRelation, ObjectModel} from './object-model';
 
 export class CurrencyRate extends ObjectModel<CurrencyRate> {
 
-  public BE_RELATIONS: DBRelation[] = [
+  public RELATIONS: DBRelation[] = [
     {BE: 'base_currency_name', FE: 'baseCurrency'},
     {BE: 'destination_currency_name', FE: 'destinationCurrency'},
     {BE: 'value', FE: 'value'}
@@ -17,6 +17,6 @@ export class CurrencyRate extends ObjectModel<CurrencyRate> {
   public value: number;
 
   public static CONVERT(beData: {}): CurrencyRate {
-    return new CurrencyRate().convert(beData);
+    return new CurrencyRate().convertFromBE(beData);
   }
 }

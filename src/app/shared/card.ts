@@ -22,7 +22,7 @@ export type CurrencyType = 'USD'|'EUR';
  */
 export class Card extends ObjectModel<Card> {
 
-  public BE_RELATIONS: DBRelation[] = [
+  public RELATIONS: DBRelation[] = [
     {BE: 'IBAN', FE: 'iban'},
     {BE: 'payment_system_type', FE: 'paymentSystemType'},
     {BE: 'card_type', FE: 'cardType'},
@@ -51,6 +51,6 @@ export class Card extends ObjectModel<Card> {
   public holderLastName: string;
 
   public static CONVERT(beData: {}): Card {
-    return new Card().convert(beData);
+    return new Card().convertFromBE(beData);
   }
 }

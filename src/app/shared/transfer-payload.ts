@@ -6,7 +6,7 @@ import {DBRelation, ObjectModel} from './object-model';
 
 export class TransferPayload extends ObjectModel<TransferPayload> {
 
-  public BE_RELATIONS: DBRelation[] = [
+  public RELATIONS: DBRelation[] = [
     {BE: 'card_number', FE: 'toCardNumber'},
     {BE: 'CVV', FE: 'cvv'},
     {BE: 'amount', FE: 'amount'}

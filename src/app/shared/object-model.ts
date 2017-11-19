@@ -13,23 +13,27 @@ export interface DBRelation {
 
 export class ObjectModel<T> {
 
-  public BE_RELATIONS: DBRelation[] = [];
+  public RELATIONS: DBRelation[] = [];
 
   /**
    * Convert object from backend to frontend view
    * @param {{}} beData
    * @returns {T}
    */
-  public convert(beData: {}): T {
+  public convertFromBE(beData: {}): T {
     const feObject: {} = {};
-    this.BE_RELATIONS.forEach((relation: DBRelation) => feObject[relation.FE] = beData[relation.BE]);
+    this.RELATIONS.forEach((relation: DBRelation) => feObject[relation.FE] = beData[relation.BE]);
 
     return <T> feObject;
   }
 
+  /**
+   * Convert object from frontend to backend view
+   * @returns {Object}
+   */
   public convertToBE(): object {
     const beObject: {} = {};
-    this.BE_RELATIONS.forEach((relation: DBRelation) => beObject[relation.BE] = this[relation.FE]);
+    this.RELATIONS.forEach((relation: DBRelation) => beObject[relation.BE] = this[relation.FE]);
 
     return beObject;
   }
