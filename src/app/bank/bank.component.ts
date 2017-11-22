@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 import {AuthService} from '../shared/services/auth.service';
+import {UserService} from '../shared/services/user.service';
 import {User} from '../shared/user';
 
 /**
@@ -14,24 +16,25 @@ import {User} from '../shared/user';
 })
 export class BankComponent implements OnInit {
 
-  public currentUser: User;
+  public currentUser: Observable<User>;
 
   private authService: AuthService;
+  private userService: UserService;
   private router: Router;
 
   /**
    * @param {AuthService} authService
+   * @param {UserService} userService
    * @param {Router} router
    */
-  constructor(authService: AuthService, router: Router) {
+  constructor(authService: AuthService, userService: UserService, router: Router) {
     this.authService = authService;
+    this.userService = userService;
     this.router = router;
   }
 
   public ngOnInit() {
-    this.authService.getCurrentUser().subscribe((currentUser: User) => {
-      this.currentUser = currentUser;
-    });
+    this.currentUser = this.userService.getCurrentUser();
   }
 
   /**
@@ -39,6 +42,9 @@ export class BankComponent implements OnInit {
    * Logged out from API and redirect to the login page
    */
   public logOut() {
-    this.authService.logOut().subscribe(() => this.router.navigateByUrl('/login'));
+    this.authService.logOut().subscribe(() => {
+      this.userService.clearUserCache();
+      this.router.navigateByUrl('/login');
+    });
   }
 }

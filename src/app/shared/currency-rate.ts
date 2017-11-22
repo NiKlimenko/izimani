@@ -17,6 +17,9 @@ export class CurrencyRate extends ObjectModel<CurrencyRate> {
   public value: number;
 
   public static CONVERT(beData: {}): CurrencyRate {
-    return new CurrencyRate().convertFromBE(beData);
+    const rate: CurrencyRate = new CurrencyRate();
+    rate.convertFromBE(beData);
+
+    return rate;
   }
 }

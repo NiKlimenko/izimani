@@ -16,15 +16,11 @@ export class ObjectModel<T> {
   public RELATIONS: DBRelation[] = [];
 
   /**
-   * Convert object from backend to frontend view
+   * Maps the provided properties to the properties of the descendant
    * @param {{}} beData
-   * @returns {T}
    */
-  public convertFromBE(beData: {}): T {
-    const feObject: {} = {};
-    this.RELATIONS.forEach((relation: DBRelation) => feObject[relation.FE] = beData[relation.BE]);
-
-    return <T> feObject;
+  public convertFromBE(beData: {}) {
+    this.RELATIONS.forEach((relation: DBRelation) => this[relation.FE] = beData[relation.BE]);
   }
 
   /**

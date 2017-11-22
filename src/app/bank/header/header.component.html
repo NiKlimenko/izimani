@@ -5,6 +5,14 @@
       <span class="title">Izimani</span>
     </a>
   </div>
+
+  <div class="header-nav">
+    <a routerLink="/bank" class="nav-link" [class.active]="navState === 'bank'" (click)="headerLinkClicked('bank')">
+      <span class="nav-text">Dashboard</span></a>
+    <a *ngIf="admin" routerLink="/bank/admin" class="nav-link" [class.active]="navState === 'admin'" (click)="headerLinkClicked('admin')">
+      <span class="nav-text">Admin panel</span></a>
+  </div>
+
   <div class="header-actions">
     <clr-dropdown>
       <button class="nav-icon" clrDropdownTrigger>

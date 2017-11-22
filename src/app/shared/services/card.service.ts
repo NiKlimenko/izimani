@@ -1,9 +1,10 @@
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable, ObservableInput} from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 import {catchError, map} from 'rxjs/operators';
 import {Card} from '../card';
 import {TransferPayload} from '../transfer-payload';
+import {parseError} from './util.service';
 
 /**
  * Service for working with credit cards
@@ -61,19 +62,7 @@ export class CardService {
   public transferToCard(fromIban: string, payload: TransferPayload): Observable<void> {
     return this.http.post(`api/cardtocard/${fromIban}/transact`, payload.convertToBE(), {responseType: 'text'}).pipe(
       map(() => null),
-      catchError(this.parseError)
+      catchError(parseError)
     );
-  }
-
-  private parseError(response: HttpErrorResponse): ObservableInput<{}> {
-    const error: {ModelState: {}[]} = JSON.parse(response.error);
-
-    const states: {}[] = error.ModelState;
-
-    if (states) {
-      return Observable.throw(states[Object.keys(states)[0]][0]);
-    } else {
-      return Observable.throw(null);
-    }
   }
 }

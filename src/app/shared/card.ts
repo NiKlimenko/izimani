@@ -51,6 +51,9 @@ export class Card extends ObjectModel<Card> {
   public holderLastName: string;
 
   public static CONVERT(beData: {}): Card {
-    return new Card().convertFromBE(beData);
+    const card: Card = new Card();
+    card.convertFromBE(beData);
+
+    return card;
   }
 }

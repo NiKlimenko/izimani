@@ -1,6 +1,6 @@
 <clr-main-container>
   <app-alert></app-alert>
-  <app-header (logout)="logOut()"></app-header>
+  <app-header [admin]="(currentUser|async)?.isAdmin()" (logout)="logOut()"></app-header>
 
   <div class="content-container">
     <div class="content-area">

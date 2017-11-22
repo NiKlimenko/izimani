@@ -1,28 +1,51 @@
 //tslint:disable:variable-name
 
+import {DBRelation, ObjectModel} from './object-model';
+
+/**
+ * Type described user role
+ */
+export type UserRole = 'user'|'admin';
+
 /**
  * User model
  */
+export class User extends ObjectModel<User> {
 
-export class User {
-  private _identification_number: string;
-  private _first_name: string;
-  private _last_name: string;
-  private _birthday: Date;
+  public RELATIONS: DBRelation[] = [
+    {BE: 'identification_number', FE: 'id'},
+    {BE: 'first_name', FE: 'name'},
+    {BE: 'last_name', FE: 'secondName'},
+    {BE: 'birthday', FE: 'birthday'},
+    {BE: 'role', FE: 'role'}
+  ];
 
-  public get id(): string {
-    return this._identification_number;
+  public id: string;
+  public name: string;
+  public secondName: string;
+  public birthday: string;
+  public role: UserRole;
+
+  constructor(id?: string, name?: string, secondName?: string, birthday?: string) {
+    super();
+    this.id = id;
+    this.name = name;
+    this.secondName = secondName;
+    this.birthday = birthday;
   }
 
-  public get name(): string {
-    return this._first_name;
+  public static CONVERT(beData: {}): User {
+    const user: User = new User();
+    user.convertFromBE(beData);
+
+    return user;
   }
 
-  public get lastName(): string {
-    return this._last_name;
-  }
-
-  public get birthday(): Date {
-    return this._birthday;
+  /**
+   * Checks whether this user is an administrator
+   * @returns {boolean}
+   */
+  public isAdmin(): boolean {
+    return this.role === 'admin';
   }
 }
