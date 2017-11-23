@@ -1,0 +1,43 @@
+<clr-alert [clrAlertType]="'alert-danger'" [clrAlertClosable]="false" [clrAlertClosed]="!createCardForm.errors?.api">
+  <clr-alert-item>
+    <span class="alert-text">{{createCardForm.errors?.api}}</span>
+  </clr-alert-item>
+</clr-alert>
+
+<form [formGroup]="createCardForm" (ngSubmit)="createCard()">
+  <section class="form-block">
+    <label>Create a new bank account</label>
+    <div class="form-group">
+      <label class="required" for="user-id">User passport identification number</label>
+      <input required formControlName="userId" type="text" id="user-id" placeholder="User passport number" size="30">
+    </div>
+    <div class="form-group">
+      <label class="required" for="paymentSystemType">Choose payment system</label>
+      <div class="select">
+        <select required formControlName="paymentSystemType" id="paymentSystemType">
+          <option *ngFor="let paymentSystem of getPaymentSystems()" [value]="paymentSystem">{{paymentSystem}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="required" for="cardType">Select the type of card</label>
+      <div class="select">
+        <select required formControlName="cardType" id="cardType">
+          <option *ngFor="let cardType of getCardTypes()" [value]="cardType">{{cardType}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="required" for="currencyType">Select the type of currency</label>
+      <div class="select">
+        <select required formControlName="currencyType" id="currencyType">
+          <option *ngFor="let currencyType of getCurrencyTypes()" [value]="currencyType">{{currencyType}}</option>
+        </select>
+      </div>
+    </div>
+    <span *ngIf="createCardForm.disabled; else createCardButton" class="spinner spinner-md" style="margin: 0 0 0 .5rem"></span>
+    <ng-template #createCardButton>
+      <button [disabled]="createCardForm.invalid" type="submit" class="btn btn-primary">Create card</button>
+    </ng-template>
+  </section>
+</form>

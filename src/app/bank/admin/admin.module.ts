@@ -2,9 +2,9 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ClarityModule, ClrIconModule} from 'clarity-angular';
-import {UserService} from '../../shared/services/user.service';
 import {AdminRoutingModule} from './admin-routing.module';
 import {AdminComponent} from './admin.component';
+import {CreateCardComponent} from './create-card/create-card.component';
 import {RegisterComponent} from './register/register.component';
 
 /**
@@ -19,7 +19,6 @@ import {RegisterComponent} from './register/register.component';
     ClarityModule,
     ReactiveFormsModule
   ],
-  declarations: [AdminComponent, RegisterComponent],
-  providers: [UserService]
+  declarations: [AdminComponent, RegisterComponent, CreateCardComponent]
 })
 export class AdminModule { }

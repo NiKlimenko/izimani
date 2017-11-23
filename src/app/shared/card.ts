@@ -57,3 +57,30 @@ export class Card extends ObjectModel<Card> {
     return card;
   }
 }
+
+/**
+ * Credit card payload model
+ * Used to create credit cards
+ */
+export class CardPayload extends ObjectModel<CardPayload> {
+
+  public RELATIONS: DBRelation[] = [
+    {BE: 'identification_number', FE: 'userId'},
+    {BE: 'payment_system_type', FE: 'paymentSystemType'},
+    {BE: 'card_type', FE: 'cardType'},
+    {BE: 'currency_type', FE: 'currencyType'}
+  ];
+
+  public userId: string;
+  public paymentSystemType: PaymentSystemType;
+  public cardType: CardType;
+  public currencyType: CurrencyType;
+
+  constructor(userId: string, paymentSystemType: PaymentSystemType, cardType: CardType, currencyType: CurrencyType) {
+    super();
+    this.userId = userId;
+    this.paymentSystemType = paymentSystemType;
+    this.cardType = cardType;
+    this.currencyType = currencyType;
+  }
+}

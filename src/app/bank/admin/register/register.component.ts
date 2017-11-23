@@ -51,9 +51,8 @@ export class RegisterComponent {
       this.registerForm.enable();
       this.appAlertService.showAlert(new AppAlertParams('A new customer has been registered successfully!', 3000, 'success'));
     }, (error: string) => {
-      const errorMessage: string = error || 'Oops, Something went wrong...';
       this.registerForm.enable();
-      this.registerForm.setErrors({api: errorMessage});
+      this.registerForm.setErrors({api: error});
     });
   }
 }

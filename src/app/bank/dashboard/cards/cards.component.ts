@@ -113,7 +113,7 @@ export class CardsComponent implements OnInit {
         this.appAlertService.showAlert(new AppAlertParams('Transaction was successful', 3000, 'success'));
         this.requestUserCards();
       }, (error: string) => {
-        this.transferErrorMessage = error || 'Oops, Something went wrong...';
+        this.transferErrorMessage = error;
         this.isTransferError = true;
       });
   }

@@ -14,6 +14,6 @@ export function parseError(response: HttpErrorResponse): ObservableInput<{}> {
   if (states) {
     return Observable.throw(states[Object.keys(states)[0]][0]);
   } else {
-    return Observable.throw(error);
+    return Observable.throw('Oops, Something went wrong...');
   }
 }

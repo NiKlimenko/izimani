@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {catchError, map} from 'rxjs/operators';
-import {Card} from '../card';
+import {Card, CardPayload} from '../card';
 import {TransferPayload} from '../transfer-payload';
 import {parseError} from './util.service';
 
@@ -61,6 +61,18 @@ export class CardService {
    */
   public transferToCard(fromIban: string, payload: TransferPayload): Observable<void> {
     return this.http.post(`api/cardtocard/${fromIban}/transact`, payload.convertToBE(), {responseType: 'text'}).pipe(
+      map(() => null),
+      catchError(parseError)
+    );
+  }
+
+  /**
+   * Creation of a new credit card
+   * @param {CardPayload} payload
+   * @returns {Observable<void>}
+   */
+  public createCard(payload: CardPayload): Observable<void> {
+    return this.http.post('api/bankcard/add', payload.convertToBE(), {responseType: 'text'}).pipe(
       map(() => null),
       catchError(parseError)
     );
