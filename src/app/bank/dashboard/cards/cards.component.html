@@ -22,7 +22,7 @@
           <div class="credit-card credit-card--front" style="width: auto">
             <div class="credit-card__company">Izimani</div>
             <div class="credit-card__number">{{formatCardNumber(card.cardNumber)}}</div>
-            <div class="credit-card__expiry-date">{{formatCardDate(card.expirationDate)}}</div>
+            <div class="credit-card__expiry-date">{{card.expirationDate|date:'MM/yy'}}</div>
             <div class="credit-card__owner">{{card.holderName}} {{card.holderLastName}}</div>
             <div class="credit-card__logo"><span [ngClass]="getCardPaymentSystemClass(card.paymentSystemType)"
                                                  style="font-size: 5rem"></span></div>
@@ -31,9 +31,9 @@
       </div>
 
       <div class="card-footer">
-        <button class="btn btn-primary">Report</button>
+        <button class="btn btn-primary" (click)="cardReportClicked(card)">Report</button>
         <clr-dropdown>
-          <button class="btn btn-danger" clrDropdownTrigger (click)="cardActionHandle(card)">
+          <button class="btn btn-danger" clrDropdownTrigger (click)="cardSelected(card)">
             Actions
             <clr-icon shape="caret down"></clr-icon>
           </button>
@@ -117,5 +117,12 @@
     <ng-template #transferButton>
       <button [disabled]="transferForm.invalid" type="submit" form="transferForm" class="btn btn-primary">Transfer</button>
     </ng-template>
+  </div>
+</clr-modal>
+
+<clr-modal #reportModal [clrModalSize]="'xl'">
+  <h3 class="modal-title">Actual report on this credit card</h3>
+  <div class="modal-body">
+    <app-transactions #transactions></app-transactions>
   </div>
 </clr-modal>

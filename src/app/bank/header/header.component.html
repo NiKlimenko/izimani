@@ -20,8 +20,7 @@
         <clr-icon shape="caret down"></clr-icon>
       </button>
       <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-        <a href="/" clrDropdownItem>About</a>
-        <a href="/" clrDropdownItem>Preferences</a>
+        <a clrDropdownItem (click)="showAllReports()">All reports</a>
         <a (click)="logout.emit()" clrDropdownItem>Log out</a>
       </clr-dropdown-menu>
     </clr-dropdown>
@@ -36,3 +35,10 @@
     </clr-dropdown>
   </div>
 </header>
+
+<clr-modal #reportModal [clrModalSize]="'xl'">
+  <h3 class="modal-title">Report on all your transactions</h3>
+  <div class="modal-body">
+    <app-transactions #transactions></app-transactions>
+  </div>
+</clr-modal>

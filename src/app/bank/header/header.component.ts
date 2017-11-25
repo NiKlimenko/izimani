@@ -1,5 +1,7 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
+import {Modal} from 'clarity-angular';
+import {TransactionsComponent} from '../shared/transactions/transactions.component';
 
 type ActiveState = 'bank'|'admin';
 
@@ -13,6 +15,11 @@ type ActiveState = 'bank'|'admin';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+
+  @ViewChild('reportModal')
+  public reportModal: Modal;
+  @ViewChild('transactions')
+  public transactionsComponent: TransactionsComponent;
 
   @Input()
   public admin: boolean;
@@ -36,5 +43,13 @@ export class HeaderComponent {
    */
   public headerLinkClicked(nav: ActiveState) {
     this.navState = nav;
+  }
+
+  /**
+   * Requests all of the user transactions
+   */
+  public showAllReports() {
+    this.transactionsComponent.requestTransactions();
+    this.reportModal.open();
   }
 }

@@ -8,6 +8,7 @@ import {AppAlertService} from '../../../shared/services/app-alert.service';
 import {CardService} from '../../../shared/services/card.service';
 import {TransferPayload} from '../../../shared/transfer-payload';
 import {AppAlertParams} from '../../app-alert/app-alert.component';
+import {TransactionsComponent} from '../../shared/transactions/transactions.component';
 
 /**
  * Component for rendering credit cards
@@ -29,6 +30,12 @@ export class CardsComponent implements OnInit {
   @ViewChild('transferModal')
   public transferModal: Modal;
 
+  @ViewChild('reportModal')
+  public reportModal: Modal;
+
+  @ViewChild('transactions')
+  public transactionsComponent: TransactionsComponent;
+
   public userCards: Observable<Card[]>;
   public selectedCard: Card;
 
@@ -42,6 +49,10 @@ export class CardsComponent implements OnInit {
   private cardService: CardService;
   private appAlertService: AppAlertService;
 
+  /**
+   * @param {CardService} cardService
+   * @param {AppAlertService} appAlertService
+   */
   constructor(cardService: CardService, appAlertService: AppAlertService) {
     this.cardService = cardService;
     this.appAlertService = appAlertService;
@@ -57,16 +68,20 @@ export class CardsComponent implements OnInit {
     this.requestUserCards();
   }
 
+  /**
+   * Formats card numbers (removes dashes)
+   * @param {string} rawCardNumber
+   * @returns {string}
+   */
   public formatCardNumber(rawCardNumber: string): string {
     return rawCardNumber.replace(/-/g, ' ');
   }
 
-  public formatCardDate(rawCardDate: string): string {
-    const date: Date = new Date(rawCardDate);
-
-    return `${date.getMonth()}/${date.getUTCFullYear() % 100}`;
-  }
-
+  /**
+   * Returns the set of CSS classes depending on the payment system card
+   * @param {PaymentSystemType} cardType
+   * @returns {Object}
+   */
   public getCardPaymentSystemClass(cardType: PaymentSystemType): object {
     return {
       ccs: true,
@@ -75,10 +90,17 @@ export class CardsComponent implements OnInit {
     };
   }
 
-  public cardActionHandle(card: Card) {
+  /**
+   * Sets the current used card for further actions
+   * @param {Card} card
+   */
+  public cardSelected(card: Card) {
     this.selectedCard = card;
   }
 
+  /**
+   * Blocks card
+   */
   public blockSelectedCard() {
     this.isBlockInAction = true;
     this.cardService.lockCard(this.selectedCard.iban).subscribe(() => {
@@ -88,6 +110,9 @@ export class CardsComponent implements OnInit {
     });
   }
 
+  /**
+   * Unlocks card
+   */
   public unBlockSelectedCard() {
     this.isBlockInAction = true;
     this.cardService.unLockCard(this.selectedCard.iban).subscribe(() => {
@@ -97,6 +122,9 @@ export class CardsComponent implements OnInit {
     });
   }
 
+  /**
+   * Performs a transaction to another card
+   */
   public transferToCard() {
     const cardNumber: string = this.transferForm.value.cardNumber;
     const cvv: string = this.transferForm.value.cvv;
@@ -118,6 +146,10 @@ export class CardsComponent implements OnInit {
       });
   }
 
+  /**
+   * Close handler of a transfer modal
+   * @param {boolean} isModalOpen
+   */
   public transferModalClosed(isModalOpen: boolean) {
     if (!isModalOpen) {
       this.transferForm.reset();
@@ -125,7 +157,19 @@ export class CardsComponent implements OnInit {
     }
   }
 
+  /**
+   * Updates user cards
+   */
   public requestUserCards() {
     this.userCards = this.cardService.getCurrentUserCards();
+  }
+
+  /**
+   * Requests a report for specific card
+   * @param {Card} card
+   */
+  public cardReportClicked(card: Card) {
+    this.transactionsComponent.requestTransactions(card.iban);
+    this.reportModal.open();
   }
 }

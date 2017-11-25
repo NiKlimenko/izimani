@@ -1,0 +1,25 @@
+<clr-datagrid [clrDgLoading]="isLoading">
+  <clr-dg-placeholder>We couldn't find any transactions!</clr-dg-placeholder>
+
+  <clr-dg-column>Sender</clr-dg-column>
+  <clr-dg-column>Recipient</clr-dg-column>
+  <clr-dg-column>Type</clr-dg-column>
+  <clr-dg-column>Amount</clr-dg-column>
+  <clr-dg-column>Time</clr-dg-column>
+
+  <clr-dg-row *ngFor="let transaction of transactions|async">
+    <clr-dg-cell>{{transaction.outIban}}</clr-dg-cell>
+    <clr-dg-cell>{{transaction.inIban}}</clr-dg-cell>
+    <clr-dg-cell>{{getTransactionType(transaction.transactionType)}}</clr-dg-cell>
+    <clr-dg-cell>{{transaction.amount}} {{transaction.currencyType}}</clr-dg-cell>
+    <clr-dg-cell>{{transaction.datetime|date:'medium'}}</clr-dg-cell>
+
+    <ng-template *ngIf="isPaymentType(transaction.transactionType)" ngProjectAs="clr-dg-row-detail" [clrIfExpanded]="false">
+      <clr-dg-row-detail>
+        {{transaction.psDetails.contractValue}} Payment for {{transaction.psDetails.serviceName}} ({{transaction.psDetails.serviceCategory}})
+      </clr-dg-row-detail>
+    </ng-template>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{transactionsCount}} payments</clr-dg-footer>
+</clr-datagrid>

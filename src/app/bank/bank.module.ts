@@ -8,6 +8,7 @@ import {AppAlertComponent} from './app-alert/app-alert.component';
 import {BankRoutingModule} from './bank-routing.module';
 import {BankComponent} from './bank.component';
 import {HeaderComponent} from './header/header.component';
+import {SharedModule} from './shared/shared.module';
 
 /**
  * Bank module
@@ -16,6 +17,7 @@ import {HeaderComponent} from './header/header.component';
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     BankRoutingModule,
     ClarityModule,
     ClrIconModule,

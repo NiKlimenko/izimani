@@ -20,7 +20,9 @@ export class ObjectModel<T> {
    * @param {{}} beData
    */
   public convertFromBE(beData: {}) {
-    this.RELATIONS.forEach((relation: DBRelation) => this[relation.FE] = beData[relation.BE]);
+    if (beData) {
+      this.RELATIONS.forEach((relation: DBRelation) => this[relation.FE] = beData[relation.BE]);
+    }
   }
 
   /**
