@@ -56,11 +56,13 @@ export class Transaction extends ObjectModel<Transaction> {
 export class CtCDetails extends ObjectModel<CtCDetails> {
 
   public RELATIONS: DBRelation[] = [
-    {BE: 'CardNumber', FE: 'cardNumber'},
+    {BE: 'card_number_sender', FE: 'cardNumberSender'},
+    {BE: 'card_number_recipient', FE: 'cardNumberRecipient'},
     {BE: 'CVV', FE: 'cvv'}
   ];
 
-  public cardNumber: string;
+  public cardNumberSender: string;
+  public cardNumberRecipient: string;
   public cvv: string;
 
   public static CONVERT(beData: {}): CtCDetails {
@@ -77,14 +79,16 @@ export class CtCDetails extends ObjectModel<CtCDetails> {
 export class PSDetails extends ObjectModel<CtCDetails> {
 
   public RELATIONS: DBRelation[] = [
-    {BE: 'ServiceCategory', FE: 'serviceCategory'},
-    {BE: 'ServiceName', FE: 'serviceName'},
-    {BE: 'ContractFieldValue', FE: 'contractValue'}
+    {BE: 'service_category', FE: 'serviceCategory'},
+    {BE: 'service_name', FE: 'serviceName'},
+    {BE: 'contract_field_value', FE: 'contractValue'},
+    {BE: 'card_number', FE: 'cardNumber'}
   ];
 
   public serviceCategory: string;
   public serviceName: string;
   public contractValue: string;
+  public cardNumber: string;
 
   public static CONVERT(beData: {}): PSDetails {
     const psDetails: PSDetails = new PSDetails();
