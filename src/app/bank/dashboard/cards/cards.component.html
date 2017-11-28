@@ -48,6 +48,10 @@
                     [disabled]="card.isLocked">
               Transfer
             </button>
+            <button type="button" clrDropdownItem (click)="paymentClicked()" [class.disabled]="card.isLocked"
+                    [disabled]="card.isLocked">
+              Payment
+            </button>
           </clr-dropdown-menu>
         </clr-dropdown>
       </div>
@@ -124,5 +128,77 @@
   <h3 class="modal-title">Actual report on this credit card</h3>
   <div class="modal-body">
     <app-transactions #transactions></app-transactions>
+  </div>
+</clr-modal>
+
+<clr-modal #paymentModal (clrModalOpenChange)="paymentModalClosed($event)">
+  <h3 class="modal-title">Make a payment</h3>
+  <div class="modal-body">
+    <clr-alert [clrAlertType]="'alert-danger'" [clrAlertClosable]="false" [clrAlertClosed]="!paymentForm.errors?.api">
+      <clr-alert-item>
+        <span class="alert-text">{{paymentForm.errors?.api}}</span>
+      </clr-alert-item>
+    </clr-alert>
+
+    <p>You can pay for available services with your credit card.</p>
+
+    <form id="paymentForm" [formGroup]="paymentForm" (ngSubmit)="makePayment()">
+      <section class="form-block">
+        <div class="form-group">
+          <label class="required" for="serviceName">Select the service for payment</label>
+          <div class="select">
+            <select required formControlName="serviceId" id="serviceName">
+              <option *ngFor="let provider of paymentProviders|async" [value]="provider.id">{{provider.name}} ({{provider.category}})
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label *ngIf="paymentProviders" class="required" for="contractValue">Enter the {{getContractType()|async}}</label>
+          <input formControlName="contractValue" type="text" id="contractValue" required>
+        </div>
+        <div class="form-group">
+          <label class="required" for="payment_amount">Amount of the payment</label>
+          <input formControlName="amount" type="text" id="payment_amount" placeholder="Amount" required>
+        </div>
+        <div class="form-group">
+          <label for="isAuto">Enable auto payment</label>
+          <div class="checkbox">
+            <input formControlName="isAuto" type="checkbox" (ngModelChange)="autoPaymentSelected($event)" id="isAuto">
+            <label for="isAuto">auto payment</label>
+          </div>
+        </div>
+        <section *ngIf="paymentForm.value.isAuto" class="form-block">
+          <label>Automatic payment settings</label>
+          <div class="form-group">
+            <label class="required" for="autoType">Type of automatic payment</label>
+            <div class="select">
+              <select formControlName="autoType" id="autoType">
+                <option *ngFor="let type of autoPaymentType" [value]="type">{{type}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="required" for="autoPeriod">Period of automatic payment</label>
+            <div class="select">
+              <select formControlName="autoPeriod" id="autoPeriod">
+                <option *ngFor="let period of autoPaymentPeriodType" [value]="period">{{period}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="required" for="autoStartDatetime">Start time of auto payment</label>
+            <input formControlName="autoStartDatetime" type="datetime-local" id="autoStartDatetime">
+          </div>
+        </section>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="paymentModal.close()">Cancel</button>
+    <span *ngIf="paymentForm.disabled; else payButton" class="spinner spinner-md" style="margin: 0 0 0 .5rem"></span>
+    <ng-template #payButton>
+      <button [disabled]="paymentForm.invalid" type="submit" form="paymentForm" class="btn btn-primary">Pay</button>
+    </ng-template>
   </div>
 </clr-modal>
