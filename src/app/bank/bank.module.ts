@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {ClarityModule, ClrAlertModule, ClrDropdownModule, ClrIconModule} from 'clarity-angular';
 import {AppAlertService} from '../shared/services/app-alert.service';
 import {CardService} from '../shared/services/card.service';
+import {PaymentsService} from '../shared/services/payments.service';
 import {UserService} from '../shared/services/user.service';
 import {AppAlertComponent} from './app-alert/app-alert.component';
 import {BankRoutingModule} from './bank-routing.module';
@@ -25,6 +26,6 @@ import {SharedModule} from './shared/shared.module';
     ClrAlertModule
   ],
   declarations: [BankComponent, AppAlertComponent, HeaderComponent],
-  providers: [AppAlertService, UserService, CardService]
+  providers: [AppAlertService, UserService, CardService, PaymentsService]
 })
 export class BankModule { }

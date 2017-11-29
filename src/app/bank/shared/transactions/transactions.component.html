@@ -9,7 +9,7 @@
 
   <clr-dg-row *ngFor="let transaction of transactions|async">
     <clr-dg-cell>{{transaction.ctcDetails?.cardNumberSender || transaction.psDetails?.cardNumber}}</clr-dg-cell>
-    <clr-dg-cell>{{transaction.ctcDetails?.cardNumberRecipient || transaction.inIban}}</clr-dg-cell>
+    <clr-dg-cell>{{transaction.ctcDetails?.cardNumberRecipient || transaction.psDetails?.serviceName}}</clr-dg-cell>
     <clr-dg-cell>{{getTransactionType(transaction.transactionType)}}</clr-dg-cell>
     <clr-dg-cell>{{transaction.amount}} {{transaction.currencyType}}</clr-dg-cell>
     <clr-dg-cell>{{transaction.datetime|date:'medium'}}</clr-dg-cell>

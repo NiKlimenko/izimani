@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {catchError, map, publishReplay, refCount} from 'rxjs/operators';
-import {PaymentPayload} from '../payment';
+import {AutoPayment, PaymentPayload} from '../payment';
 import {PaymentProvider} from '../payment-provider';
 import {parseError} from './util.service';
 
@@ -53,6 +53,29 @@ export class PaymentsService {
    */
   public payService(serviceId: string, payload: PaymentPayload): Observable<void> {
     return this.http.post(`api/paymentservice/${serviceId}/pay`, payload.convertToBE(), {responseType: 'text'}).pipe(
+      map(() => null),
+      catchError(parseError)
+    );
+  }
+
+  /**
+   * Get auto payments
+   * @returns {Observable<AutoPayment[]>}
+   */
+  public getAutoPayments(): Observable<AutoPayment[]> {
+    //tslint:disable-next-line: no-backbone-get-set-outside-model
+    return this.http.get('api/autopayment').pipe(
+      map((autoPayments: AutoPayment[]) => autoPayments.map((autoPayment: AutoPayment) => AutoPayment.CONVERT(autoPayment)))
+    );
+  }
+
+  /**
+   * Delete auto payment
+   * @param {string} autoPaymentId
+   * @returns {Observable<any>}
+   */
+  public deleteAutoPayment(autoPaymentId: string): Observable<null> {
+    return this.http.delete(`api/autopayment/${autoPaymentId}`, {responseType: 'text'}).pipe(
       map(() => null),
       catchError(parseError)
     );

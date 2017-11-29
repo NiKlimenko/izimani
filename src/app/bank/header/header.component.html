@@ -9,7 +9,8 @@
   <div class="header-nav">
     <a routerLink="/bank" class="nav-link" [class.active]="navState === 'bank'" (click)="headerLinkClicked('bank')">
       <span class="nav-text">Dashboard</span></a>
-    <a *ngIf="admin" routerLink="/bank/admin" class="nav-link" [class.active]="navState === 'admin'" (click)="headerLinkClicked('admin')">
+    <a *ngIf="admin" routerLink="/bank/admin" class="nav-link" [class.active]="navState === 'admin'"
+       (click)="headerLinkClicked('admin')">
       <span class="nav-text">Admin panel</span></a>
   </div>
 
@@ -20,6 +21,7 @@
         <clr-icon shape="caret down"></clr-icon>
       </button>
       <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+        <a clrDropdownItem (click)="showAutoPayments()">Auto Payments</a>
         <a clrDropdownItem (click)="showAllReports()">All reports</a>
         <a (click)="logout.emit()" clrDropdownItem>Log out</a>
       </clr-dropdown-menu>
@@ -40,5 +42,42 @@
   <h3 class="modal-title">Report on all your transactions</h3>
   <div class="modal-body">
     <app-transactions #transactions></app-transactions>
+  </div>
+</clr-modal>
+
+<clr-modal #autoPaymentModal [clrModalSize]="'xl'">
+  <h3 class="modal-title">Active auto payments</h3>
+  <div class="modal-body">
+    <clr-alert [clrAlertType]="'alert-danger'" [clrAlertClosable]="false" [clrAlertClosed]="!removeAutoPaymentError">
+      <clr-alert-item>
+        <span class="alert-text">{{removeAutoPaymentError}}</span>
+      </clr-alert-item>
+    </clr-alert>
+
+    <clr-datagrid [clrDgLoading]="isAutoPaymentsLoading">
+      <clr-dg-placeholder>We couldn't find any automatic payments!</clr-dg-placeholder>
+
+      <clr-dg-column>Service</clr-dg-column>
+      <clr-dg-column>Category</clr-dg-column>
+      <clr-dg-column>Amount</clr-dg-column>
+      <clr-dg-column>Card Number</clr-dg-column>
+      <clr-dg-column>Type</clr-dg-column>
+      <clr-dg-column>Start Time</clr-dg-column>
+
+      <clr-dg-row *ngFor="let autoPayment of autoPayments|async">
+        <clr-dg-action-overflow>
+          <button class="action-item" (click)="removeAutoPayment(autoPayment)">Remove</button>
+        </clr-dg-action-overflow>
+
+        <clr-dg-cell>{{autoPayment.serviceName}} - {{autoPayment.contractValue}}</clr-dg-cell>
+        <clr-dg-cell>{{autoPayment.serviceCategory}}</clr-dg-cell>
+        <clr-dg-cell>{{autoPayment.amount}}</clr-dg-cell>
+        <clr-dg-cell>{{autoPayment.iban}}</clr-dg-cell>
+        <clr-dg-cell>{{getAutoPaymentType(autoPayment)}}</clr-dg-cell>
+        <clr-dg-cell>{{autoPayment.autoStartDatetime|date:'medium'}}</clr-dg-cell>
+      </clr-dg-row>
+
+      <clr-dg-footer>{{autoPaymentsCount}} auto payments</clr-dg-footer>
+    </clr-datagrid>
   </div>
 </clr-modal>

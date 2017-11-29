@@ -75,3 +75,23 @@ export class PaymentPayload extends Payment {
     return payload;
   }
 }
+
+export class AutoPayment extends Payment {
+
+  public RELATIONS: DBRelation[] = this.RELATIONS.concat([
+    {BE: 'autopayment_key', FE: 'id'},
+    {BE: 'service_category', FE: 'serviceCategory'},
+    {BE: 'service_name', FE: 'serviceName'}
+  ]);
+
+  public id: string;
+  public serviceCategory: string;
+  public serviceName: string;
+
+  public static CONVERT(beData: {}): AutoPayment {
+    const payload: AutoPayment = new AutoPayment();
+    payload.convertFromBE(beData);
+
+    return payload;
+  }
+}
