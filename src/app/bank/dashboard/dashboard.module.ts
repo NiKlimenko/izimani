@@ -1,6 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {TextMaskModule} from 'angular2-text-mask';
 import {ClrAlertModule, ClrDropdownModule, ClrIconModule, ClrModalModule} from 'clarity-angular';
 import {CurrencyService} from '../../shared/services/currency.service';
 import {SharedModule} from '../shared/shared.module';
@@ -23,7 +24,8 @@ import {DashboardComponent} from './dashboard.component';
     ClrModalModule,
     FormsModule,
     ReactiveFormsModule,
-    ClrAlertModule
+    ClrAlertModule,
+    TextMaskModule
   ],
   declarations: [DashboardComponent, CardsComponent, CurrencyComponent],
   providers: [CurrencyService]

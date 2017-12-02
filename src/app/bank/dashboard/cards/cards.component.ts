@@ -44,6 +44,7 @@ export class CardsComponent implements OnInit {
 
   public userCards: Observable<Card[]>;
   public selectedCard: Card;
+  public cardNumberMask: (string|RegExp)[];
 
   public isBlockInAction: boolean = false;
   public isTransferInAction: boolean = false;
@@ -71,6 +72,8 @@ export class CardsComponent implements OnInit {
     this.cardService = cardService;
     this.appAlertService = appAlertService;
     this.paymentsService = paymentsService;
+
+    this.cardNumberMask = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
     this.transferForm = new FormGroup({
       cardNumber: new FormControl(),
