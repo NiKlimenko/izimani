@@ -81,12 +81,14 @@ export class AutoPayment extends Payment {
   public RELATIONS: DBRelation[] = this.RELATIONS.concat([
     {BE: 'autopayment_key', FE: 'id'},
     {BE: 'service_category', FE: 'serviceCategory'},
-    {BE: 'service_name', FE: 'serviceName'}
+    {BE: 'service_name', FE: 'serviceName'},
+    {BE: 'card_number', FE: 'cardNumber'}
   ]);
 
   public id: string;
   public serviceCategory: string;
   public serviceName: string;
+  public cardNumber: string;
 
   public static CONVERT(beData: {}): AutoPayment {
     const payload: AutoPayment = new AutoPayment();

@@ -4,6 +4,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {ClarityModule, ClrIconModule} from 'clarity-angular';
 import {AdminRoutingModule} from './admin-routing.module';
 import {AdminComponent} from './admin.component';
+import {AllCardsComponent} from './all-cards/all-cards.component';
 import {CreateCardComponent} from './create-card/create-card.component';
 import {RegisterComponent} from './register/register.component';
 
@@ -19,6 +20,6 @@ import {RegisterComponent} from './register/register.component';
     ClarityModule,
     ReactiveFormsModule
   ],
-  declarations: [AdminComponent, RegisterComponent, CreateCardComponent]
+  declarations: [AdminComponent, RegisterComponent, CreateCardComponent, AllCardsComponent]
 })
 export class AdminModule { }

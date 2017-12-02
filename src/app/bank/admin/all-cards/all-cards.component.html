@@ -1,0 +1,68 @@
+<clr-alert [clrAlertType]="'alert-danger'" [clrAlertClosable]="false" [clrAlertClosed]="!deleteCardError">
+  <clr-alert-item>
+    <span class="alert-text">{{deleteCardError}}</span>
+  </clr-alert-item>
+</clr-alert>
+
+<clr-datagrid [clrDgLoading]="isCardsLoading">
+  <clr-dg-placeholder>We couldn't find any user cards!</clr-dg-placeholder>
+
+  <clr-dg-column>Card Number</clr-dg-column>
+  <clr-dg-column>Currency</clr-dg-column>
+  <clr-dg-column>Payment System</clr-dg-column>
+  <clr-dg-column>Type</clr-dg-column>
+  <clr-dg-column>Amount</clr-dg-column>
+  <clr-dg-column>Name</clr-dg-column>
+  <clr-dg-column>Second Name</clr-dg-column>
+
+  <clr-dg-row *ngFor="let card of cards|async">
+    <clr-dg-action-overflow>
+      <button class="action-item" (click)="deleteCard(card)">Delete</button>
+      <button class="action-item" (click)="onReplenish(card)">Replenish</button>
+    </clr-dg-action-overflow>
+
+    <clr-dg-cell>{{card.cardNumber}}</clr-dg-cell>
+    <clr-dg-cell>{{card.currencyType}}</clr-dg-cell>
+    <clr-dg-cell>{{getCardPaymentSystem(card)}}</clr-dg-cell>
+    <clr-dg-cell>{{card.cardType}}</clr-dg-cell>
+    <clr-dg-cell>{{card.amount}}</clr-dg-cell>
+    <clr-dg-cell>{{card.holderName}}</clr-dg-cell>
+    <clr-dg-cell>{{card.holderLastName}}</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{cardsCount}} user cards</clr-dg-footer>
+</clr-datagrid>
+
+<clr-modal #fundCardModal>
+  <h3 class="modal-title">Replenish the card</h3>
+  <div class="modal-body">
+    <clr-alert [clrAlertType]="'alert-danger'" [clrAlertClosable]="false" [clrAlertClosed]="!fundCardForm.errors?.api">
+      <clr-alert-item>
+        <span class="alert-text">{{fundCardForm.errors?.api}}</span>
+      </clr-alert-item>
+    </clr-alert>
+
+    <form [formGroup]="fundCardForm" (ngSubmit)="fundCard()">
+      <section class="form-block">
+        <label>Replenishment of user's credit card</label>
+        <div class="form-group">
+          <label class="required" for="amount">Amount to transfer</label>
+          <input required formControlName="amount" type="text" id="amount" placeholder="Amount">
+        </div>
+        <div class="form-group">
+          <label class="required" for="currencyType">Select the type of currency</label>
+          <div class="select">
+            <select required formControlName="currencyType" id="currencyType">
+              <option *ngFor="let currencyType of getCurrencyTypes()" [value]="currencyType">{{currencyType}}</option>
+            </select>
+          </div>
+        </div>
+        <span *ngIf="fundCardForm.disabled; else fundCardButton" class="spinner spinner-md"
+              style="margin: 0 0 0 .5rem"></span>
+        <ng-template #fundCardButton>
+          <button [disabled]="fundCardForm.invalid" type="submit" class="btn btn-primary">Replenish</button>
+        </ng-template>
+      </section>
+    </form>
+  </div>
+</clr-modal>

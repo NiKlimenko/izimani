@@ -39,9 +39,9 @@ export class CreateCardComponent {
 
     this.createCardForm = new FormGroup({
       userId: new FormControl(),
-      paymentSystemType: new FormControl('Visa'),
-      cardType: new FormControl('standard'),
-      currencyType: new FormControl('USD')
+      paymentSystemType: new FormControl(this.getPaymentSystems()[0]),
+      cardType: new FormControl(this.cardTypes[0]),
+      currencyType: new FormControl(this.currencyTypes[0])
     });
   }
 
