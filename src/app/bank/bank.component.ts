@@ -43,7 +43,6 @@ export class BankComponent implements OnInit {
    */
   public logOut() {
     this.authService.logOut().subscribe(() => {
-      this.userService.clearUserCache();
       this.router.navigateByUrl('/login');
     });
   }

@@ -1,9 +1,17 @@
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpEventType,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+  HttpUserEvent
+} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
-import {Observable, ObservableInput} from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 import {catchError} from 'rxjs/operators';
 import {AppConfig} from '../app.config';
 
@@ -45,11 +53,11 @@ export class AuthInterceptorService implements HttpInterceptor {
     }
   }
 
-  private handleUnauthorized(error: HttpErrorResponse): ObservableInput<HttpEvent<{}>> {
+  private handleUnauthorized(error: HttpErrorResponse): Observable<HttpEvent<{}>> {
     if (error.status === 401) {
       this.router.navigateByUrl('login');
 
-      return Observable.of(error);
+      return Observable.of(<HttpUserEvent<{}>> {type: HttpEventType.User});
     }
 
     return Observable.throw(error);

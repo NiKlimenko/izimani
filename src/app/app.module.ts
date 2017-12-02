@@ -6,6 +6,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {AuthInterceptorService} from './shared/services/auth-interceptor.service';
 import {AuthService} from './shared/services/auth.service';
+import {UserService} from './shared/services/user.service';
 
 /**
  * Main app module
@@ -27,7 +28,8 @@ import {AuthService} from './shared/services/auth.service';
       useClass: AuthInterceptorService,
       multi: true
     },
-    AuthService
+    AuthService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

@@ -4,7 +4,6 @@ import {ClarityModule, ClrAlertModule, ClrDropdownModule, ClrIconModule} from 'c
 import {AppAlertService} from '../shared/services/app-alert.service';
 import {CardService} from '../shared/services/card.service';
 import {PaymentsService} from '../shared/services/payments.service';
-import {UserService} from '../shared/services/user.service';
 import {AppAlertComponent} from './app-alert/app-alert.component';
 import {BankRoutingModule} from './bank-routing.module';
 import {BankComponent} from './bank.component';
@@ -26,6 +25,6 @@ import {SharedModule} from './shared/shared.module';
     ClrAlertModule
   ],
   declarations: [BankComponent, AppAlertComponent, HeaderComponent],
-  providers: [AppAlertService, UserService, CardService, PaymentsService]
+  providers: [AppAlertService, CardService, PaymentsService]
 })
 export class BankModule { }

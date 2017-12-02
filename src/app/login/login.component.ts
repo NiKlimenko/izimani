@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../shared/services/auth.service';
+import {UserService} from '../shared/services/user.service';
 
 /**
  * Login component
@@ -24,10 +25,12 @@ export class LoginComponent {
   /**
    * @param {AuthService} authService
    * @param {Router} router
+   * @param {UserService} userService
    */
-  constructor(authService: AuthService, router: Router) {
+  constructor(authService: AuthService, router: Router, userService: UserService) {
     this.authService = authService;
     this.router = router;
+    userService.clearUserCache();
   }
 
   /**
