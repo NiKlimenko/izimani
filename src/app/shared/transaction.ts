@@ -4,7 +4,7 @@ import {DBRelation, ObjectModel} from './object-model';
 /**
  * Type describes the transaction type
  */
-export type TransactionType = 'card_to_card'|'service_payment'|'other';
+export type TransactionType = 'card_to_card'|'service_payment'|'account_replenishment'|'other';
 
 /**
  * Transaction model
@@ -20,7 +20,8 @@ export class Transaction extends ObjectModel<Transaction> {
     {BE: 'amount', FE: 'amount'},
     {BE: 'datetime', FE: 'datetime'},
     {BE: 'card_to_card_transaction_detail', FE: 'ctcDetails'},
-    {BE: 'payment_service_pay_transaction_detail', FE: 'psDetails'}
+    {BE: 'payment_service_pay_transaction_detail', FE: 'psDetails'},
+    {BE: 'account_replenishment_transaction_detail', FE: 'repDetails'}
   ];
 
   public transactionId: number;
@@ -32,6 +33,7 @@ export class Transaction extends ObjectModel<Transaction> {
   public datetime: string;
   public ctcDetails?: CtCDetails;
   public psDetails?: PSDetails;
+  public repDetails?: RepDetails;
 
   public static CONVERT(beData: {}): Transaction {
     const transaction: Transaction = new Transaction();
@@ -43,8 +45,12 @@ export class Transaction extends ObjectModel<Transaction> {
     const psDetails: PSDetails = new PSDetails();
     psDetails.convertFromBE(transaction.psDetails);
 
+    const repDetails: RepDetails = new RepDetails();
+    repDetails.convertFromBE(transaction.repDetails);
+
     transaction.ctcDetails = ctcDetails;
     transaction.psDetails = psDetails;
+    transaction.repDetails = repDetails;
 
     return transaction;
   }
@@ -76,7 +82,7 @@ export class CtCDetails extends ObjectModel<CtCDetails> {
 /**
  * Payments service transaction details model
  */
-export class PSDetails extends ObjectModel<CtCDetails> {
+export class PSDetails extends ObjectModel<PSDetails> {
 
   public RELATIONS: DBRelation[] = [
     {BE: 'service_category', FE: 'serviceCategory'},
@@ -95,5 +101,21 @@ export class PSDetails extends ObjectModel<CtCDetails> {
     psDetails.convertFromBE(beData);
 
     return psDetails;
+  }
+}
+
+export class RepDetails extends ObjectModel<RepDetails> {
+
+  public RELATIONS: DBRelation[] = [
+    {BE: 'card_number', FE: 'cardNumber'}
+  ];
+
+  public cardNumber: string;
+
+  public static CONVERT(beData: {}): RepDetails {
+    const repDetails: RepDetails = new RepDetails();
+    repDetails.convertFromBE(beData);
+
+    return repDetails;
   }
 }

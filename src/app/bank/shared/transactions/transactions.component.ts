@@ -27,6 +27,7 @@ export class TransactionsComponent {
     this.transactionTypes = {
       card_to_card: 'Card to Card',
       service_payment: 'Payment for Services',
+      account_replenishment: 'Account Replenishment',
       other: 'Other'
     };
   }
