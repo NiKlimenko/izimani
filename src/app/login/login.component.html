@@ -10,9 +10,7 @@
       <input [(ngModel)]="login" class="username" type="text" name="login" id="login_username" placeholder="Passport number">
       <input [(ngModel)]="password" class="password" type="password" name="pass" id="login_password" placeholder="Password">
 
-      <div *ngIf="isErrorHappen" class="error active">
-        Invalid user name or password
-      </div>
+      <div *ngIf="loginError" class="error active">{{loginError}}</div>
 
       <button type="submit" class="btn btn-primary">NEXT</button>
       <div *ngIf="isLoading" class="progress loop"><progress></progress></div>

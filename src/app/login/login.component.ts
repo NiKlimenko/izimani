@@ -1,3 +1,4 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../shared/services/auth.service';
@@ -16,7 +17,7 @@ export class LoginComponent {
 
   public login: string;
   public password: string;
-  public isErrorHappen: boolean = false;
+  public loginError: string;
   public isLoading: boolean = false;
 
   private authService: AuthService;
@@ -42,8 +43,8 @@ export class LoginComponent {
     this.authService.authenticate({username: this.login, password: this.password}).subscribe(() => {
       this.isLoading = false;
       this.router.navigateByUrl('/');
-    }, () => {
-      this.isErrorHappen = true;
+    }, (error: HttpErrorResponse) => {
+      this.loginError = error.error.error_description;
       this.isLoading = false;
     });
   }
