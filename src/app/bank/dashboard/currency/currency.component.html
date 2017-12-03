@@ -16,7 +16,7 @@
 </table>
 
 <div class="currency_calculator">
-  <input type="text" placeholder="Amount" [ngModel]="amount" (ngModelChange)="amountChanged($event)" name="amount">
+  <input type="number" placeholder="Amount" [ngModel]="amount" (ngModelChange)="amountChanged($event)" name="amount">
   <div class="row currency_select">
     <div class="select col-xl-4 col-lg-5">
       <select id="from" [ngModel]="base" (ngModelChange)="baseCurrencySelected($event)">

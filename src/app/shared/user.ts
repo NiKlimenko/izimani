@@ -17,7 +17,8 @@ export class User extends ObjectModel<User> {
     {BE: 'first_name', FE: 'name'},
     {BE: 'last_name', FE: 'secondName'},
     {BE: 'birthday', FE: 'birthday'},
-    {BE: 'role', FE: 'role'}
+    {BE: 'role', FE: 'role'},
+    {BE: 'email', FE: 'email'}
   ];
 
   public id: string;
@@ -25,13 +26,22 @@ export class User extends ObjectModel<User> {
   public secondName: string;
   public birthday: string;
   public role: UserRole;
+  public email: string;
 
-  constructor(id?: string, name?: string, secondName?: string, birthday?: string) {
+  /**
+   * @param {string} id
+   * @param {string} name
+   * @param {string} secondName
+   * @param {string} birthday
+   * @param {string} email
+   */
+  constructor(id?: string, name?: string, secondName?: string, birthday?: string, email?: string) {
     super();
     this.id = id;
     this.name = name;
     this.secondName = secondName;
     this.birthday = birthday;
+    this.email = email;
   }
 
   public static CONVERT(beData: {}): User {

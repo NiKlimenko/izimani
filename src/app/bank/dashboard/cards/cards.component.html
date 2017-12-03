@@ -23,7 +23,7 @@
             <div class="credit-card__company">Izimani</div>
             <div class="credit-card__number">{{formatCardNumber(card.cardNumber)}}</div>
             <div class="credit-card__expiry-date">{{card.expirationDate|date:'MM/yy'}}</div>
-            <div class="credit-card__owner">{{card.holderName}} {{card.holderLastName}}</div>
+            <div class="credit-card__owner">{{card.holderName|uppercase}} {{card.holderLastName|uppercase}}</div>
             <div class="credit-card__logo"><span [ngClass]="getCardPaymentSystemClass(card.paymentSystemType)"
                                                  style="font-size: 5rem"></span></div>
           </div>

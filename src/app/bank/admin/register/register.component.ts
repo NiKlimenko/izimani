@@ -29,6 +29,7 @@ export class RegisterComponent {
     this.appAlertService = appAlertService;
     this.registerForm = new FormGroup({
       id: new FormControl(),
+      email: new FormControl(),
       name: new FormControl(),
       secondName: new FormControl(),
       birthday: new FormControl(),
@@ -43,7 +44,7 @@ export class RegisterComponent {
   public register() {
     const form: FormGroup = this.registerForm;
     form.disable();
-    const user: User = new User(form.value.id, form.value.name, form.value.secondName, form.value.birthday);
+    const user: User = new User(form.value.id, form.value.name, form.value.secondName, form.value.birthday, form.value.email);
     const password: string = form.value.password;
     const confirmPassword: string = form.value.confirmPassword;
 
